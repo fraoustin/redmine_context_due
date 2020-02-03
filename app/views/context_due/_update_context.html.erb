@@ -1,0 +1,19 @@
+<% if !@project.nil? and !@issue.nil? %>
+<%
+    def date_of_next(day, dte= Date.today)
+        date  = Date.parse(day)
+        delta = date > dte ? 0 : 7
+        date + delta
+    end
+%>
+<li class="folder">
+    <a href="#" class="submenu"><%= l(:field_due_date) %></a>
+    <ul>
+        <li><a class="" rel="nofollow" data-method="post" href="/issues/bulk_update?back_url=<%= ERB::Util.url_encode(@back) %>&amp;ids%5B%5D=<%= @issue.id %>&amp;issue%5Bdue_date%5D=<%= Date.today %>"><%= l(:label_today) %></a></li>
+        <li><a class="" rel="nofollow" data-method="post" href="/issues/bulk_update?back_url=<%= ERB::Util.url_encode(@back) %>&amp;ids%5B%5D=<%= @issue.id %>&amp;issue%5Bdue_date%5D=<%= Date.tomorrow() %>"><%= l(:label_tomorrow) %></a></li>
+        <li><a class="" rel="nofollow" data-method="post" href="/issues/bulk_update?back_url=<%= ERB::Util.url_encode(@back) %>&amp;ids%5B%5D=<%= @issue.id %>&amp;issue%5Bdue_date%5D=<%= date_of_next('Friday') %>"><%= l(:label_this_week) %></a></li>
+        <li><a class="" rel="nofollow" data-method="post" href="/issues/bulk_update?back_url=<%= ERB::Util.url_encode(@back) %>&amp;ids%5B%5D=<%= @issue.id %>&amp;issue%5Bdue_date%5D=<%= date_of_next('Monday') %>"><%= l(:label_next_week) %></a></li>
+        <li><a class="" rel="nofollow" data-method="post" href="/issues/bulk_update?back_url=<%= ERB::Util.url_encode(@back) %>&amp;ids%5B%5D=<%= @issue.id %>&amp;issue%5Bdue_date%5D=<%= Date.today.end_of_month + 1.day  %>"><%= l(:label_next_month) %></a></li>
+    </ul>
+</li>
+<% end %>
